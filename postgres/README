@@ -1,0 +1,33 @@
+0) Set up a docker network 'dockernet'
+$ docker network create --subnet 172.18.1.0/24 --gateway 172.18.1.254 dockernet
+
+Add a pg-server entry to /etc/hosts:
+pg-server	172.18.1.6
+
+By default create.sh allocates 172.18.1.6 to the database on hostname 'pg-server' 
+
+A working postgresql client is also needed:
+$ psql --version
+psql (PostgreSQL) 9.5.6
+
+1) Create a postgres data-volume container
+$ docker create --name postgres-persist postgres true
+
+2) Set hostname, port, database, username and passwd in the format in the ~/.pgpass file
+
+The format is: hostname:port:database:username:password, for example:
+$ cat .pgpass
+pg-server:*:postgres:postgres:pleasechangeme
+pg-server:*:corvid:raven:dontbedaft
+
+3) Customise variables in the update.sh shell. These are then:
+server-name     pg-server
+username        PGUSR default pguser
+user passwd     PGPWD postgres password stop if not in ~/.pgpass file
+database name   PGDBN default same as username
+database passwd PGPASSWORD default 'pleasechangeme'
+
+4) Run image and create container 'postgres-instance' using the 'postgres-persist' data volume using the create script
+$ sh ./update.sh
+
+5) Connect 
