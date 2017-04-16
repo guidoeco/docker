@@ -30,4 +30,7 @@ database passwd PGPASSWORD default 'pleasechangeme'
 4) Run image and create container 'postgres-instance' using the 'postgres-persist' data volume using the create script
 $ sh ./update.sh
 
-5) Connect 
+5) Connect using psql to 'corvid' database with 'raven' user
+$ psql -U raven -h pg-server -d corvid
+Connect using psql to 'raven' database with 'raven' user
+$ psql -U raven -h pg-server
