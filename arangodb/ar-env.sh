@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 # set arangodb connection string shell variables
 # username      ARUSR default root
 # password      ARPWD default lookup as key:pair from ~/.aqlpass file
