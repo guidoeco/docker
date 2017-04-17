@@ -6,6 +6,8 @@
 # database name   ARDBN default testdb
 # database passwd ARPASSWORD default 'pleasechangeme'
 
+#ARUSR=raven
+
 # get passwords and set default values for shell variables
 . ./ar-env.sh
 

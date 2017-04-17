@@ -6,6 +6,9 @@
 # database name   ARDBN default testdb
 # database passwd ARPASSWORD default 'pleasechangeme'
 
+#ARUSR=raven
+#ARDBN=corvid
+
 # get passwords and set default values for shell variables
 . ./ar-env.sh
 
@@ -14,8 +17,9 @@ sh ./stop.sh
 docker rm arangodb3-instance
 docker run -e ARANGO_ROOT_PASSWORD=${ARPASSWORD} -d --name arangodb3-instance --net dockernet --ip 172.18.1.3 --volumes-from arangodb3-persist -p 9000:8529 arangodb/arangodb
 
+sleep 1
 # drop database
-node <<@@EOF1
+${NODE} <<@@EOF1
 Database = require('arangojs').Database;
 db = new Database({url: 'http://root:${ARPASSWORD}@${ARSVR}:8529', databaseName: '_system' });
 db.listDatabases()
@@ -28,8 +32,9 @@ db.listDatabases()
     err => { console.error('error drop: ', err)}});
 @@EOF1
 
+sleep 1
 # create database, user and grant user read-write permissions to database 
-node <<@@EOF2
+${NODE} <<@@EOF2
 sync = require('sync');
 request = require('request');
 function createdb(callback) {

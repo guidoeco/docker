@@ -5,6 +5,10 @@
 # server-name   ARSVR default ar-server
 # database-name ARDBN default testdb
 
+# determine if node is installed
+NODE=$(which node)
+NODE=${NODE:-$(which nodejs)}
+
 # Stop unless ~/.aqlpass file permissions are 0600
 if [ "x"$(stat -c %a ${HOME}/.aqlpass) != "x600" ]
 then
