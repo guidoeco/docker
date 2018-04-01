@@ -1,16 +1,17 @@
 0) Set up a docker network 'dockernet'
 $ docker network create --subnet 172.18.1.0/24 --gateway 172.18.1.254 dockernet
 
-By default 'update.sh' allocates 172.18.1.3 to the database on hostname 'ar-server' 
+By default 'create.sh' and/or 'update.sh' allocates 172.18.1.3 to the database on hostname 'ar-server'
 Add an ar-server entry to /etc/hosts:
 172.18.1.3	ar-server
 
-1) Install jq, npm and node/nodejs plus the 'request', 'sync' and 'arangojs' modules.
-On a Debian based system this looks somethign like:
+1) Install jq, npm and node/nodejs plus the 'request' and 'arangojs' modules.
+On a Debian based system this looks something like:
 $ sudo apt-get install jq npm
-$ npm install request sync arangojs
+$ npm install request arangojs
+
 2) Create an arangodb3 data-volume container
-$ docker create --name arangodb3-persist arangodb/arangodb true
+$ docker run -d --name arangodb3-persist -v /var/lib/arangodb3 busybox true
 
 3) Customise variables in the update.sh shell. These are then:
 server-name     ARSVR ar-server
@@ -29,7 +30,7 @@ The output of diff should then be:
 $ git diff update.sh
 # database name   ARDBN default testdb
 # database passwd ARPASSWORD default 'pleasechangeme'
- 
+
 +ARUSR=raven
 +ARDBN=corvid
 # get passwords and set default values for shell variables
@@ -42,8 +43,12 @@ $ cat .aqlpass
 
 A user password needs to be set for the script to run as the ARUSER password is not in ~/.aqlpass file the install will stop
 
-5) Run the update.sh to drop and create a new docker arangodb-instance container, drop and create the new database, create the new user and grant read-write permissions to the database
-$ sh ./update.sh
+5) Run the create.sh to drop and create a new docker arangodb-instance container, drop and create the new database, create the new user and grant read-write permissions to the database
+
+$ sh ./create.sh
 arangodb3-instance
 arangodb3-instance
 e63950b159eb8e2aef9c03302c947234523ac253e9e0797d5e510ae2fd2b9c4233
+
+
+6) Following new a release of the 'arangodb' docker image run the 'update.sh' to pull and create a new 'arangodb-instance' database-container
