@@ -1,1 +1,1 @@
-docker stop postgres-instance2
+docker stop postgres-instance
