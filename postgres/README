@@ -10,6 +10,9 @@ A working postgresql client is also needed:
 $ psql --version
 psql (PostgreSQL) 9.5.6
 
+On a Debian based system this looks something like:
+$ sudo apt install postgresql-client
+
 1) Create a postgres data-volume container
 $ docker create --name postgres-persist postgres true
 

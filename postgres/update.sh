@@ -10,12 +10,20 @@
 # PGUSR=raven
 # PGDBN=corvid
 
+psql --version
+if [ $? -ne 0 ]; then
+    echo Error: install psql client
+    exit 1
+fi
+
+echo $PGUSR $PGDBN
 . ./pg-env.sh
 
 sh ./stop.sh
 
 docker rm postgres-instance
 docker run --name postgres-instance --net dockernet --ip 172.18.1.6 --volumes-from postgres-persist -e POSTGRES_PASSWORD=${PGPASSWORD} -d postgres
+
 
 export PGPASSWORD=${PGPASSWORD:-pleasechangeme}
 while true;
