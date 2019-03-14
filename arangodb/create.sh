@@ -11,10 +11,10 @@
 
 # drop and create arangodb docker instance
 sh ./stop.sh
-docker pull arangodb/arangodb
+#docker pull arangodb/arangodb
 docker rm arangodb3-instance
 
 #uncomment to create a database with the 'rocksdb' storage engine
 #docker run -e ARANGO_ROOT_PASSWORD=${ARPASSWORD} -e ARANGO_STORAGE_ENGINE=rocksdb -d --name arangodb3-instance --net dockernet --ip 172.18.1.3 --volumes-from arangodb3-persist -p 9000:8529 arangodb/arangodb
 
-docker run -e ARANGO_ROOT_PASSWORD=${ARPASSWORD} -d --name arangodb3-instance --net dockernet --ip 172.18.1.3 --volumes-from arangodb3-persist -p 9000:8529 arangodb/arangodb
+docker run -e ARANGO_ROOT_PASSWORD=${ARPASSWORD} -d --name arangodb3-instance --net dockernet --ip 172.18.1.3 --volumes-from arangodb3-persist -p 9000:8529 arangodb
